@@ -5,8 +5,89 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Coding_Dojo_5"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        DataContext="{Binding Main, Source={StaticResource Locator}}"
+        Title="Coding Dojo 5" Height="900" Width="1200">
+    <Window.Resources>
+        <DataTemplate x:Key="Default">
+            <Border Margin="3" BorderBrush="Black" BorderThickness="2" CornerRadius="5" Width="230">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="1" Source="{Binding Image}" Height="100"></Image>
+                    <Label VerticalAlignment="Center" FontSize="20" Content="{Binding Description}"></Label>
+                </Grid>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="Selected">
+            <StackPanel>
+                <Border Margin="3" BorderBrush="Black" BorderThickness="2" CornerRadius="5" Width="280">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding Image}" Height="100"></Image>
+                            <Label VerticalAlignment="Center" FontSize="20" Content="{Binding Description}"></Label>
+                            <Label VerticalAlignment="Center" FontSize="20" Content="{Binding AgeRecom}"></Label>
+                        </StackPanel>
+                        <Button Command="{Binding DataContext.BuyBtnClickedCmd, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" 
+                                CommandParameter="{Binding}" 
+                                Content="Buy" Margin="5" HorizontalAlignment="Right" Width="80" Height="20"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="150"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ListBox Grid.Column="0" Grid.Row="0" ItemsSource="{Binding ToyCategories}" SelectedItem="{Binding CurrentCategory}" ItemTemplate="{StaticResource Default}"></ListBox>
+        <ItemsControl Grid.Column="1" Grid.Row="0" ItemsSource="{Binding CurrentCategory.Toys}" ItemTemplate="{StaticResource Selected}">
+            <!---->
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <!--<ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <StackPanel>
+                    <Border Margin="3" BorderBrush="Black" BorderThickness="2" CornerRadius="5" Width="280">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Image}" Height="100"></Image>
+                                <Label VerticalAlignment="Center" FontSize="20" Content="{Binding Description}"></Label>
+                                <Label VerticalAlignment="Center" FontSize="20" Content="{Binding AgeRecom}"></Label>
+                            </StackPanel>
+                            <Button Command="{Binding DataContext.BuyBtnClickedCmd, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" 
+                                CommandParameter="{Binding}" 
+                                Content="Buy" Margin="5" HorizontalAlignment="Right" Width="80" Height="20"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </DataTemplate>
+            </ItemsControl.ItemTemplate>-->
+        </ItemsControl>
+
+        <ListBox Grid.ColumnSpan="2" Grid.Row="1" ItemsSource="{Binding ToyCart}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="3" Height="120" BorderBrush="Bisque" BorderThickness="1" CornerRadius="5">
+                        <Image Source="{Binding Image}"/>
+                        </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+
     </Grid>
 </Window>
